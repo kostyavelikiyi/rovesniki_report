@@ -14,8 +14,6 @@ jobs:
           #secretAccessKey: ${{ secrets.SECRET_ACCESS_KEY }}
           function_id: "d4e5pgmrqqrr0hvu9pvu"
           runtime: "golang121"
-          memory: "128"
           entrypoint: "index.Handler"
-          environment: DEBUG=True,COUNT=1
-          source: "."
+          include: "*.go"
           exclude: "main.go"
