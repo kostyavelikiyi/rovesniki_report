@@ -13,6 +13,7 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/retry"
 	"github.com/ydb-platform/ydb-go-sdk/v3/sugar"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/types"
+	yc "github.com/ydb-platform/ydb-go-yc"
 )
 
 type table364 struct {
@@ -36,8 +37,8 @@ func readData(ctx context.Context) (*table364, error) {
 
 	db, err := ydb.Open(ctx,
 		dsn,
-		// yc.WithMetadataCredentials(),
-		// yc.WithInternalCA(), // append Yandex Cloud certificates
+		yc.WithMetadataCredentials(),
+		yc.WithInternalCA(), // append Yandex Cloud certificates
 	)
 	if err != nil {
 		panic(err)
@@ -45,8 +46,6 @@ func readData(ctx context.Context) (*table364, error) {
 		log.Println("DB connetcted")
 	}
 	defer db.Close(ctx)
-
-	
 
 	return &res, nil
 }
