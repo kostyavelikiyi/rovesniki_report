@@ -18,3 +18,4 @@ jobs:
           entrypoint: "index.Handler"
           environment: DEBUG=True,COUNT=1
           source: "."
+          exclude: "main.go"
