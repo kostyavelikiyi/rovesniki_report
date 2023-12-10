@@ -34,9 +34,12 @@ func createClient(ctx context.Context) *firestore.Client {
 
 	projectID := "rovesnikiprod"
 
-	json := []byte(os.Getenv("google_service_account"))
+	json, exists := os.LookupEnv("GOOGLE_SERVICE_ACCOUNT")
+	if !exists {
+		panic("GOOGLE_SERVICE_ACCOUNT environment variable not defined")
+	}
 
-	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsJSON(json))
+	client, err := firestore.NewClient(ctx, projectID, option.WithCredentialsJSON([]byte(json)))
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}

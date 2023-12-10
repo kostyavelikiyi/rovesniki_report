@@ -3,20 +3,18 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"strconv"
 )
 
 func Handler() (string, error) {
 
-	logger := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
 	ctx := context.Background()
 	start := "2023-12-01"
 	end := "2023-12-02"
 	restaurant := "historySea"
 
 	client := createClient(ctx)
-	logger.Println("FB client created")
+	log.Println("FB client created")
 	defer client.Close()
 
 	// db, err := sql.Open("ydb", dsn)
@@ -29,11 +27,11 @@ func Handler() (string, error) {
 	// db.SetConnMaxIdleTime(time.Second)
 
 	res := parceData(getData(start, end, restaurant, client, ctx))
-	logger.Println("Data from FB parced")
+	log.Println("Data from FB parced")
 
 	res2, error := readData(ctx)
 	//	fillTablesWithData(ctx, db, prefix)
-	logger.Println(*res2, error)
+	log.Println(*res2, error)
 
 	text := "Данные синхронизированы " + strconv.Itoa(len(*res))
 	message := Message{

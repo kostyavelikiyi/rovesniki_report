@@ -13,7 +13,6 @@ import (
 	"github.com/ydb-platform/ydb-go-sdk/v3/retry"
 	"github.com/ydb-platform/ydb-go-sdk/v3/sugar"
 	"github.com/ydb-platform/ydb-go-sdk/v3/table/types"
-	yc "github.com/ydb-platform/ydb-go-yc"
 )
 
 type table364 struct {
@@ -28,19 +27,26 @@ func writeData() error {
 
 func readData(ctx context.Context) (*table364, error) {
 
+	dsn, exists := os.LookupEnv("YDB_CONNECTION_STRING")
+	if !exists {
+		panic("YDB_CONNECTION_STRING environment variable not defined")
+	}
+
 	res := table364{}
 
 	db, err := ydb.Open(ctx,
-		os.Getenv("YDB_CONNECTION_STRING"),
-		yc.WithMetadataCredentials(),
-		yc.WithInternalCA(), // append Yandex Cloud certificates
+		dsn,
+		// yc.WithMetadataCredentials(),
+		// yc.WithInternalCA(), // append Yandex Cloud certificates
 	)
 	if err != nil {
 		panic(err)
+	} else {
+		log.Println("DB connetcted")
 	}
 	defer db.Close(ctx)
 
-	log.Println("DB connetcted")
+	
 
 	return &res, nil
 }
