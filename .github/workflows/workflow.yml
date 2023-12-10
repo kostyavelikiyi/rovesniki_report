@@ -15,5 +15,5 @@ jobs:
           function_id: "d4e5pgmrqqrr0hvu9pvu"
           runtime: "golang121"
           entrypoint: "index.Handler"
-          include: "*.go"
           exclude: "main.go"
+          environment: YDB_METADATA_CREDENTIALS=1
